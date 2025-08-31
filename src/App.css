@@ -20,7 +20,9 @@ button:hover {
 }
 
 .card-grid{
-  margin-top: 40px;
+  /* margin-top: 50px;
+  margin-left: 70px; */
+  margin: 50px 0px 40px 85px;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;
   grid-gap: 8px;
