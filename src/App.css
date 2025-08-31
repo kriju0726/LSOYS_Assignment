@@ -31,9 +31,28 @@ button:hover {
 }
 
 .card-grid{
-  
   margin: 50px 0px 40px 85px;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;
   grid-gap: 8px;
+}
+
+.bottom-part{
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.score-tab{
+  background: none;
+  border: 2px solid #fff;
+  border-radius: 5%;
+  height: 60px;
+  width: 450px;
+  margin: auto;
+  display: flex;
+  align-items: center; /* vertically centers */
+  gap: 40px;
+  
+  
 }

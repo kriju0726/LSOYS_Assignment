@@ -6,7 +6,6 @@ export default function SingleCard({ card, handleChoice, flipped, disabled }){
     if(!disabled){
       handleChoice(card)
     }
-    
   }
 
     return (
