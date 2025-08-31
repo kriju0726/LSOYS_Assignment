@@ -3,6 +3,17 @@
   margin: 40px auto;
 }
 
+#bg-video {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  min-width: 100%;
+  min-height: 100%;
+  z-index: -1; /* behind everything */
+  object-fit: cover;
+}
+
+
 button {
   background: none;
   border: 2px solid #fff;
@@ -20,8 +31,7 @@ button:hover {
 }
 
 .card-grid{
-  /* margin-top: 50px;
-  margin-left: 70px; */
+  
   margin: 50px 0px 40px 85px;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;

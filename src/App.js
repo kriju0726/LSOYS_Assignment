@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import './App.css'
 import SingleCard from './components/SingleCard';
+//import music from '../public';
 
 const cardImages = [
   { "src": "/img/helmet-1.png", matched: false },
@@ -39,6 +40,7 @@ function App() {
     if(choiceOne && choiceTwo){
       setDisabled(true)
       if(choiceOne.src === choiceTwo.src){
+        new Audio("/music/match.mp3").play()
         setCards(prevCards => {
           return prevCards.map(card => {
             if(card.src === choiceOne.src){
@@ -50,12 +52,11 @@ function App() {
         })
         resetTurn()
       } else {
+        new Audio("/music/notMatch.mp3").play()
         setTimeout(() => resetTurn(), 1000)
       }
     }
   }, [choiceOne, choiceTwo])
-
-  //console.log(cards);
 
   // reset choices & increase turn
   const resetTurn = () => {
@@ -69,6 +70,12 @@ function App() {
   useEffect(() => {
     shuffleCards()
   }, [])
+
+  useEffect(() => {
+    if (cards.length > 0 && cards.every(card => card.matched) && turns > 0) {
+      new Audio("/music/winner.mp3").play()
+    }
+  }, [cards, turns])
 
 
   return (
