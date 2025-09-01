@@ -3,6 +3,8 @@
 A simple, fast memory card-matching game built with **React 17** (Create React App v4). 
 It features flip animations, a timer with start/pause/resume, a “New Game” control, a running turn counter, a persisted best score, background video, and sound effects for matches, mismatches, and win.
 
+Live Demo - "https://magics-memory.vercel.app/"
+
 > **Run locally:** `npm run start`
 
 ---
