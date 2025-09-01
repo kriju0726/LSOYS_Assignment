@@ -128,23 +128,7 @@ The production build is emitted to the `build/` folder.
 
 ---
 
-## 7) Troubleshooting
-
-- **Blank screen after deploy under a subpath** → Update asset paths (`/img/...` → `process.env.PUBLIC_URL + '/img/...'`).  
-- **OpenSSL / Create React App errors** → Use Node 18 LTS. The included flags should already fix this in most cases.  
-- **No audio** → Click somewhere in the page first; browsers often block autoplay with sound.  
-- **Video not showing** → Ensure `vdo.mp4` is H.264/AAC encoded and the file is present in `public/`.
-
----
-
-## 8) License & Credits
-
-- Card images and audio are included under `public/`. Ensure you have the right to distribute these assets if you publish the project.
-- No license file is provided; treat this as **All Rights Reserved** unless you add a license.
-
----
-
-## 9) Roadmap (optional ideas)
+## 7) Roadmap (optional ideas)
 
 - Difficulty levels (more pairs)
 - Confetti / win overlay
