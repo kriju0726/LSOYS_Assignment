@@ -13,7 +13,6 @@
   object-fit: cover;
 }
 
-
 button {
   background: none;
   border: 2px solid #fff;
@@ -40,19 +39,17 @@ button:hover {
 .bottom-part{
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: 10px;
 }
 
 .score-tab{
   background: none;
   border: 2px solid #fff;
   border-radius: 5%;
-  height: 60px;
-  width: 450px;
-  margin: auto;
+  height: 50px;
+  width: auto;
+  margin: auto; 
   display: flex;
   align-items: center; /* vertically centers */
-  gap: 40px;
-  
-  
+  gap: 30px;
 }
