@@ -1,70 +1,157 @@
-# Getting Started with Create React App
+# Magic Memory — React Frontend
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A simple, fast memory card-matching game built with **React 17** (Create React App v4). 
+It features flip animations, a timer with start/pause/resume, a “New Game” control, a running turn counter, a persisted best score, background video, and sound effects for matches, mismatches, and win.
 
-## Available Scripts
+> **Run locally:** `npm run start`
 
-In the project directory, you can run:
+---
 
-### `npm start`
+## 1) Setup
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+### Prerequisites
+- **Node.js**: 16.x–20.x recommended (the scripts already include the `--openssl-legacy-provider` flag for newer Node versions).
+- **npm**: comes with Node.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+### Install & Run
+```bash
+# from the project root
+npm install
+npm run start
+```
+This launches the dev server at http://localhost:3000 (default).
 
-### `npm test`
+### Build for production
+```bash
+npm run build
+```
+The production build is emitted to the `build/` folder.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+> **Why the openssl flag?** `react-scripts@4` can error on newer Node versions; the scripts here already set `--openssl-legacy-provider` to avoid the OpenSSL error.
 
-### `npm run build`
+---
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## 2) Project Structure (high level)
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+```
+.
+├─ public/
+│  ├─ img/                # card faces + cover
+│  ├─ music/              # match / notMatch / winner sounds
+│  ├─ vdo.mp4             # background looping video
+│  └─ index.html
+├─ src/
+│  ├─ components/
+│  │  ├─ Controls.js      # New Game button
+│  │  ├─ ScoreBoard.js    # High Score + Turns
+│  │  ├─ Timer.js         # Start / Pause / Resume controls + time
+│  │  ├─ SingleCard.js    # flip card component
+│  │  └─ SingleCard.css   # flip animation
+│  ├─ hooks/
+│  │  ├─ useTimer.js      # timer state & interval
+│  │  └─ useGameLogic.js  # shuffling, matching, turns, sounds, win check
+│  ├─ utils/
+│  │  └─ cardsData.js     # list of card images (6 pairs)
+│  ├─ App.js / App.css
+│  ├─ index.js / index.css
+│  └─ ...
+├─ package.json
+└─ package-lock.json
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+**Tech stack**
+- React 17 with Create React App (react-scripts 4)
+- Plain CSS for styles and animations
+- HTML5 audio for SFX, video background in `public/index.html`
+- `localStorage` for persisting best score
 
-### `npm run eject`
+---
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+## 3) How to Play & Controls
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### Controls UI
+- **New Game** — shuffles a fresh deck, resets turns and time.
+- **Start** — starts the timer.
+- **Pause / Resume** — pauses or resumes the timer.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+### Game Interaction
+- Click/tap on a card to flip it.
+- Flip **two** cards:
+  - If they **match**, they stay revealed and a *match* sound plays.
+  - If they **don’t match**, a *notMatch* sound plays and they flip back after a short delay.
+- When all pairs are matched, a *winner* sound plays.
+- **Turns** increments after each guess (i.e., after two cards are evaluated).
+- **High Score** shows your best result (lowest turns), stored in `localStorage` and kept across sessions.
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+---
 
-## Learn More
+## 4) Features
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+- 🃏 **Card flip animation** (3D rotation with smooth transitions).
+- 🔀 **One-click shuffle** with *New Game*.
+- ⏱️ **Timer** with **Start / Pause / Resume**, time resets on New Game.
+- 🧮 **Turn counter** and **best (lowest) turns** saved in `localStorage`.
+- 🔊 **Sound effects**: `match.mp3`, `notMatch.mp3`, `winner.mp3` (in `public/music/`).
+- 🎞️ **Background video** (`public/vdo.mp4`) plays muted & loops.
+- 📱 **Responsive container** (centered layout, max width 860px).
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+---
 
-### Code Splitting
+## 5) Known Issues & Notes
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+1. **Absolute asset paths**  
+   Image and audio sources use root-absolute paths like `/img/...` and `/music/...`.  
+   If you deploy under a subpath (e.g., GitHub Pages at `/user/repo`), these can break.  
+   **Fix:** Replace with `process.env.PUBLIC_URL + '/img/...'` (and similarly for music) or make the paths relative.
 
-### Analyzing the Bundle Size
+2. **Autoplay policies for media**  
+   - Sounds won’t play until after a user interaction (browser policy). This is expected.  
+   - The background video is muted and uses `playsInline`, but on some mobile browsers it may not render until after interaction or if the codec isn’t supported.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+3. **Node / OpenSSL error on newer Node**  
+   This project’s scripts already include the `--openssl-legacy-provider` workaround. If you still see an OpenSSL error, try Node 18 LTS.
 
-### Making a Progressive Web App
+4. **Fast clicking during comparison**  
+   The code disables clicks while two cards are being compared, but extremely rapid interactions on very slow devices may still feel laggy.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+5. **High score semantics**  
+   Currently tracks **lowest turns** globally via `localStorage` key `highScore`. If you add difficulty modes later, namespace keys (e.g., `highScore_easy`).
 
-### Advanced Configuration
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+## 6) Available npm scripts
 
-### Deployment
+- `npm run start` — start the dev server.
+- `npm run build` — production build.
+- `npm run test` — run tests (CRA default).
+- `npm run eject` — eject CRA (irreversible).
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+---
 
-### `npm run build` fails to minify
+## 7) Troubleshooting
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- **Blank screen after deploy under a subpath** → Update asset paths (`/img/...` → `process.env.PUBLIC_URL + '/img/...'`).  
+- **OpenSSL / Create React App errors** → Use Node 18 LTS. The included flags should already fix this in most cases.  
+- **No audio** → Click somewhere in the page first; browsers often block autoplay with sound.  
+- **Video not showing** → Ensure `vdo.mp4` is H.264/AAC encoded and the file is present in `public/`.
+
+---
+
+## 8) License & Credits
+
+- Card images and audio are included under `public/`. Ensure you have the right to distribute these assets if you publish the project.
+- No license file is provided; treat this as **All Rights Reserved** unless you add a license.
+
+---
+
+## 9) Roadmap (optional ideas)
+
+- Difficulty levels (more pairs)
+- Confetti / win overlay
+- Move-based scoring + time-based scoring
+- Sound / music mute toggle
+- Accessibility & keyboard focus management
+
+---
+
+**Happy matching!**
