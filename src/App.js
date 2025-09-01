@@ -46,6 +46,7 @@ function App() {
           onStart={() => setIsRunning(true)}
           onToggle={() => setIsRunning(!isRunning)}
         />
+        
       </div>
     </div>
   );

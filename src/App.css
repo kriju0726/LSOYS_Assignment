@@ -39,7 +39,7 @@ button:hover {
 .bottom-part{
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 5px;
 }
 
 .score-tab{
@@ -47,9 +47,9 @@ button:hover {
   border: 2px solid #fff;
   border-radius: 5%;
   height: 50px;
-  width: auto;
-  margin: auto; 
+  /* width: auto; */
+  margin: auto;
   display: flex;
   align-items: center; /* vertically centers */
-  gap: 30px;
+  gap: 1px;
 }
